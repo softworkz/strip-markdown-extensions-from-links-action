@@ -19,10 +19,22 @@ class LinkReplacer {
   }
 
   transformMarkdownLinks(oldContent: string): string {
-    return transformLinks(
-        oldContent,
-        (link: string) => this.processLink(link)
-    )
+    // Transform regular links
+    let newContent = transformLinks(
+      oldContent,
+      (link: string) => this.processLink(link)
+    );
+  
+    // Transform image links
+    newContent = newContent.replace(
+      /!\[([^\]]*)\]\((\.\.\/images\/[^)]+)\)/g,
+      (match, altText, imagePath) => {
+        const newImagePath = imagePath.replace('../images/', 'images/');
+        return `![${altText}](${newImagePath})`;
+      }
+    );
+  
+    return newContent;
   }
 
   protected extractLinkParts(link: string): string[] {

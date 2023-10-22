@@ -46,8 +46,12 @@ class LinkReplacer {
       return link
     }
 
-    const uriPath = encodeURIComponent(potentialFile.substring(0, potentialFile.length - 3))
-    if(!fragment){
+    // Remove the subfolder from the path and keep only the filename
+    const fileName = potentialFile.split('/').pop() || potentialFile
+    const modifiedPath = fileName.substring(0, fileName.length - 3)
+
+    const uriPath = encodeURIComponent(modifiedPath)
+    if (!fragment) {
       return uriPath
     }
     return uriPath + "#"+ encodeURIComponent(fragment)

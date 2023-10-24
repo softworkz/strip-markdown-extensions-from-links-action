@@ -29,11 +29,26 @@ class LinkReplacer {
     newContent = newContent.replace(
       /!\[([^\]]*)\]\((\.\.\/images\/[^)]+)\)/g,
       (match, altText, imagePath) => {
-        const newImagePath = imagePath.replace('../images/', 'images/');
+        let newImagePath = imagePath.replace('../images/', 'wiki/');
+        newImagePath = newImagePath.replace('images/', 'wiki/');
         return `![${altText}](${newImagePath})`;
       }
     );
+    
+    if (newContent.includes('.png')) {
+        newContent = newContent.replace('../status/', 'wiki/');
+    }
   
+    // Transform image links
+    newContent = newContent.replace(
+      /!\[([^\]]*)\]\((\.\.\/status\/[^)]+)\)/g,
+      (match, altText, imagePath) => {
+          let newImagePath = imagePath.replace('../status/', 'wiki/');
+          newImagePath = imagePath.replace('status/', 'wiki/');
+        return `![${altText}](${newImagePath})`;
+      }
+    );
+
     return newContent;
   }
 
@@ -50,9 +65,9 @@ class LinkReplacer {
     const potentialFile = this.safeDecodeURIComponent(potentialEncodedFile)
     const fullPath: string = this.filesPath + '/' + potentialFile
 
-    if (!existsSync(fullPath)) {
-      return link
-    }
+    //if (!existsSync(fullPath)) {
+    //  return link
+    //}
 
     if (extname(fullPath) !== '.md') {
       return link

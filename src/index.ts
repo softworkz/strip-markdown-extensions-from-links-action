@@ -49,13 +49,17 @@ const transformSidebar = () => {
             transformedContent += `<img src="wiki/${svgFileName}.svg" width="80%" valign="middle" />\n`;
             lastLevel = 0;
         } else if (trimmedLine.startsWith('- ') && line.startsWith('- ')) {
-            transformedContent += `${line}<img src="wiki/trans.png" width="2" height="22" valign="middle">\n`;
+            if (lastLevel === 2) {
+                transformedContent += `${line}<img src="wiki/trans.png" width="2" height="26" valign="bottom">\n`;
+            } else {
+                transformedContent += `${line}<img src="wiki/trans.png" width="2" height="22" valign="bottom">\n`;
+            }
             lastLevel = 1;
         } else if (trimmedLine.startsWith('- ')) {
-            if (lastLevel === 2) {
-                transformedContent += `${line}<img src="wiki/trans.png" width="2" height="22" valign="middle">\n`;
+            if (lastLevel === 1) {
+                transformedContent += `${line}<img src="wiki/trans.png" width="2" height="26" valign="bottom">\n`;
             } else {
-                transformedContent += `${line}<img src="wiki/trans.png" width="2" height="32" valign="middle">\n`;
+                transformedContent += `${line}<img src="wiki/trans.png" width="2" height="22" valign="bottom">\n`;
             }
             lastLevel = 2;
         } else {

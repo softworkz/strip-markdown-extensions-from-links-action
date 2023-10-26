@@ -33,6 +33,8 @@ const transformSidebar = () => {
 
     // Handle CRLF line endings
     const lines = sidebarContent.split(/\r?\n/);
+    let lastLevel = 0;
+
     for (const line of lines) {
         const trimmedLine = line.trim();
         if (trimmedLine.startsWith('# ')) {
@@ -45,10 +47,17 @@ const transformSidebar = () => {
 </svg>`;
             fs.writeFileSync(path.join(filesPath, `${svgFileName}.svg`), svgContent);
             transformedContent += `<img src="wiki/${svgFileName}.svg" width="80%" valign="middle" />\n`;
+            lastLevel = 0;
         } else if (trimmedLine.startsWith('- ') && line.startsWith('- ')) {
             transformedContent += `${line}<img src="wiki/trans.png" width="2" height="22" valign="middle">\n`;
+            lastLevel = 1;
         } else if (trimmedLine.startsWith('- ')) {
-            transformedContent += `${line}<img src="wiki/trans.png" width="2" height="30" valign="middle">\n`;
+            if (lastLevel === 2) {
+                transformedContent += `${line}<img src="wiki/trans.png" width="2" height="22" valign="middle">\n`;
+            } else {
+                transformedContent += `${line}<img src="wiki/trans.png" width="2" height="32" valign="middle">\n`;
+            }
+            lastLevel = 2;
         } else {
             transformedContent += line + '\n';
         }

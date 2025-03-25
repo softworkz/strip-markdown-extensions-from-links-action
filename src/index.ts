@@ -43,7 +43,7 @@ const transformSidebar = () => {
             const svgFileName = headingText.replace(/ /g, '-');
             const svgContent = `<?xml version="1.0" encoding="UTF-8" ?>
 <svg enable-background="new" version="1.1" viewBox="0 -18 200 32" xmlns="http://www.w3.org/2000/svg">
-    <text font-size="1.1em" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Noto Sans,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji" fill="black">${headingText}</text>
+    <text font-size="1.05em" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Noto Sans,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji" fill="black">${headingText}</text>
 </svg>`;
             fs.writeFileSync(path.join(filesPath, `${svgFileName}.svg`), svgContent);
             transformedContent += `<img src="wiki/${svgFileName}.svg" width="80%" valign="middle" />\n`;
